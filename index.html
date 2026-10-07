@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Swibble Messeauftritt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: dark;
+  --navy:#000D36;
+  --navy-2:#0A1748;
+  --navy-3:#16235A;
+  --purple:#B718EC;
+  --purple-deep:#7610AA;
+  --purple-mid:#963BC4;
+  --lilac:#EBC5F7;
+  --lilac-soft:#F4E3F9;
+  --hall:#ECE7F2;
+  --ink:#FFFFFF;
+  --ink-2:#C9CDE4;
+  --ink-3:#9AA2C6;
+  --line:#26326A;
+  --r-lg:25px; --r-md:20px; --r-sm:15px;
+  --font: Poppins, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--navy);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:var(--lilac)}
+a:hover{color:#fff}
+:focus-visible{outline:3px solid var(--lilac);outline-offset:3px;border-radius:6px}
+h1,h2,h3{margin:0;line-height:1.05;letter-spacing:-0.03em;text-wrap:balance;font-weight:800}
+p{margin:0}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:clamp(16px,4vw,40px)}
+.eyebrow{font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--lilac)}
+.hl{color:var(--purple)}
+.muted{color:var(--ink-2)}
+
+/* Kopf */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(0,13,54,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px;flex-wrap:wrap}
+.top img{height:26px;width:auto}
+.top nav{display:flex;gap:4px;flex-wrap:wrap}
+.top nav a{color:var(--ink-2);text-decoration:none;font-size:14px;font-weight:500;padding:8px 12px;border-radius:999px}
+.top nav a:hover{color:#fff;background:var(--navy-3)}
+
+/* Hero */
+.hero{padding-block:clamp(36px,6vw,72px) 0}
+.hero-head{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(20px,4vw,64px);align-items:end}
+.hero h1{font-size:clamp(44px,7.4vw,104px);margin-top:14px}
+.hero-lead{font-size:clamp(17px,1.6vw,20px);color:var(--ink-2);max-width:46ch}
+.stage-card{position:relative;margin-top:clamp(28px,4vw,48px);border-radius:var(--r-lg);overflow:hidden;background:var(--hall);aspect-ratio:16/8.4;max-width:100%}
+.stage-card canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+.stage-card canvas:active{cursor:grabbing}
+.stage-hint{position:absolute;left:18px;top:16px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);background:rgba(255,255,255,.75);padding:6px 12px;border-radius:999px;pointer-events:none}
+.steps{position:absolute;left:12px;right:12px;bottom:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center}
+.step{appearance:none;border:0;font:inherit;font-size:14px;font-weight:600;color:var(--navy);background:rgba(255,255,255,.9);padding:10px 16px;min-height:44px;border-radius:var(--r-sm);cursor:pointer;display:inline-flex;gap:8px;align-items:center}
+.step b{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--lilac-soft);color:var(--purple-deep);font-size:12px}
+.step[aria-pressed="true"]{background:var(--purple);color:#fff}
+.step[aria-pressed="true"] b{background:rgba(255,255,255,.22);color:#fff}
+.step.play{background:var(--navy);color:#fff}
+.step.play svg{width:16px;height:16px}
+
+/* Kennzahlen-Leiste */
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;margin-top:20px}
+.facts div{background:var(--navy);padding:18px 20px}
+.facts dt{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.facts dd{margin:4px 0 0;font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
+
+/* Sektionen */
+section.block{padding-block:clamp(64px,9vw,120px) 0}
+.sec-head{display:flex;flex-direction:column;gap:14px;max-width:760px;margin-bottom:clamp(28px,4vw,44px)}
+.sec-head h2{font-size:clamp(34px,5vw,64px)}
+.sec-head p{color:var(--ink-2);font-size:18px;max-width:60ch}
+.split{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(20px,3vw,40px);align-items:start}
+.viewer{position:relative;border-radius:var(--r-lg);overflow:hidden;background:var(--hall);aspect-ratio:4/5;max-width:100%}
+.viewer canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+.toggle{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+
+.sheet-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.sheet{display:flex;flex-direction:column;gap:10px}
+.sheet figure{margin:0;background:var(--navy-2);border:1px solid var(--line);border-radius:var(--r-md);padding:16px}
+.sheet img{width:100%;height:auto;border-radius:4px}
+.sheet figcaption,.cap{font-size:13px;color:var(--ink-3)}
+.sheet h3{font-size:18px;letter-spacing:-0.01em;font-weight:700}
+
+.specs{margin-top:22px;border-top:1px solid var(--line)}
+.specs div{display:grid;grid-template-columns:minmax(0,11rem) minmax(0,1fr);gap:16px;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px}
+.specs dt{color:var(--ink-3)}
+.specs dd{margin:0;font-variant-numeric:tabular-nums}
+
+.source{display:inline-flex;align-items:center;gap:10px;margin-top:20px;font-size:14px;font-weight:600;color:var(--navy);background:var(--lilac);text-decoration:none;padding:12px 18px;border-radius:var(--r-sm);min-height:44px}
+.source:hover{background:#fff;color:var(--navy)}
+
+/* Podest-Abwicklung */
+.unfold{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;align-items:end}
+.unfold figure{margin:0;display:flex;flex-direction:column;gap:6px}
+.unfold img{width:100%;height:auto;border-radius:3px}
+
+/* Aufbauplan */
+.plan{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,3vw,40px);align-items:start}
+.plan svg{width:100%;height:auto;background:var(--navy-2);border:1px solid var(--line);border-radius:var(--r-md)}
+.bom{border-collapse:collapse;width:100%;font-size:15px}
+.bom th{text-align:left;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600;padding:0 12px 10px 0;border-bottom:1px solid var(--line)}
+.bom td{padding:14px 12px 14px 0;border-bottom:1px solid var(--line);vertical-align:top;font-variant-numeric:tabular-nums}
+.bom td:first-child{font-weight:700;white-space:nowrap}
+.bom small{display:block;color:var(--ink-3);font-size:13px}
+.tbl{overflow-x:auto}
+
+footer{margin-top:clamp(72px,10vw,140px);border-top:1px solid var(--line);padding-block:40px}
+footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center;color:var(--ink-3);font-size:14px}
+footer img{height:22px;width:auto}
+
+@media (max-width: 900px){
+  .hero-head,.split,.plan{grid-template-columns:minmax(0,1fr)}
+  .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stage-card{aspect-ratio:4/5}
+  .viewer{aspect-ratio:1/1}
+}
+@media (max-width: 520px){
+  .unfold{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .specs div{grid-template-columns:minmax(0,1fr);gap:2px}
+  .top nav{display:none}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a href="#start" aria-label="Swibble – zum Anfang"><img src="assets/brand/swibble-logo-white.svg" alt="Swibble"></a>
+    <nav aria-label="Abschnitte">
+      <a href="#rollup">Roll-up</a>
+      <a href="#podest">Podest</a>
+      <a href="#rueckwand">Rückwand</a>
+      <a href="#aufbau">Aufbauplan</a>
+    </nav>
+  </div>
+</header>
+
+<main id="start">
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-head">
+        <div>
+          <div class="eyebrow">Printmedien · Messeauftritt 2026</div>
+          <h1>Ein Stand, der <span class="hl">auffällt.</span></h1>
+        </div>
+        <p class="hero-lead">Roll-up, Podest und Rückwand im Swibble-Design. Gestaltet als druckfertige Daten und hier als 3D-Modell aufgebaut. Dreh den Stand mit der Maus oder dem Finger und bau ihn Schritt für Schritt auf.</p>
+      </div>
+
+      <div class="stage-card">
+        <canvas id="stage-main" aria-label="3D-Modell des Swibble-Messestands mit Rückwand, Roll-up und Podest"></canvas>
+        <span class="stage-hint">Ziehen zum Drehen · Scrollen zum Zoomen</span>
+        <div class="steps" role="group" aria-label="Aufbau Schritt für Schritt">
+          <button class="step play" id="btn-play" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4v16l13-8z"></path></svg>Aufbau abspielen</button>
+          <button class="step" data-step="1" type="button" aria-pressed="false"><b>1</b>Standfläche</button>
+          <button class="step" data-step="2" type="button" aria-pressed="false"><b>2</b>Rückwand</button>
+          <button class="step" data-step="3" type="button" aria-pressed="false"><b>3</b>Roll-up</button>
+          <button class="step" data-step="4" type="button" aria-pressed="true"><b>4</b>Podest</button>
+        </div>
+      </div>
+
+      <dl class="facts">
+        <div><dt>Standfläche</dt><dd>4 × 2,5 m</dd></div>
+        <div><dt>Druckmotive</dt><dd>4</dd></div>
+        <div><dt>Druckfläche</dt><dd>11,7 m²</dd></div>
+        <div><dt>Höhe max.</dt><dd>2,27 m</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="block" id="rollup">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Druckmedium 01 · Roll-up</div>
+        <h2>Zwei Seiten, <span class="hl">eine Botschaft.</span></h2>
+        <p>Das doppelseitige Roll-up holt Besucher vorne mit den vier Leistungen und dem QR-Code zum Erstgespräch ab. Die Rückseite zeigt Referenzen und Kontakt für alle, die schon am Stand vorbei sind.</p>
+      </div>
+      <div class="split">
+        <div>
+        <div class="viewer">
+          <canvas id="stage-rollup" aria-label="3D-Modell des doppelseitigen Roll-ups"></canvas>
+        </div>
+          <div class="toggle" role="group" aria-label="Ansicht Roll-up">
+            <button class="step" type="button" data-rview="front" aria-pressed="true">Vorderseite</button>
+            <button class="step" type="button" data-rview="back" aria-pressed="false">Rückseite</button>
+            <button class="step" type="button" data-rview="detail" aria-pressed="false">Kassette</button>
+            <button class="step" type="button" data-rview="pull" aria-pressed="false">Herausziehen</button>
+          </div>
+        </div>
+        <div>
+          <div class="sheet-row">
+            <div class="sheet">
+              <figure><img src="textures/rollup-vorderseite.png" alt="Roll-up Seite A: Dein Business hat Potenzial, vier Leistungen und QR-Code" loading="lazy" width="1740" height="4370"></figure>
+              <h3>Seite A · Vorderseite</h3>
+            </div>
+            <div class="sheet">
+              <figure><img src="textures/rollup-rueckseite.png" alt="Roll-up Seite B: Bundesweit im Einsatz, Case Study MyZeil und Referenzen" loading="lazy" width="1740" height="4370"></figure>
+              <h3>Seite B · Rückseite</h3>
+            </div>
+          </div>
+          <dl class="specs">
+            <div><dt>Sichtbares Format</dt><dd>85 × 200 cm</dd></div>
+            <div><dt>Datenformat</dt><dd>87 × 218,5 cm (1 px = 1 mm)</dd></div>
+            <div><dt>Zugaben</dt><dd>10 mm Beschnitt umlaufend, unten 175 mm für die Kassette</dd></div>
+            <div><dt>Ausführung</dt><dd>Doppelseitig, A in Navy, B in Lila hell</dd></div>
+            <div><dt>Call to Action</dt><dd>QR-Code zu meet.swibble.net</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="podest">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Druckmedium 02 · Podest</div>
+        <h2>Ein Podest für <span class="hl">das Gespräch.</span></h2>
+        <p>Auf der runden Theke stehen Tablet und Flyer, auf Augenhöhe mit den Besuchern. Die Druckbahn läuft einmal rundum. Logo, Claim und QR-Code sitzen mittig vorne, die Leistungen links und rechts davon. Die Klettnaht liegt hinten.</p>
+      </div>
+      <div class="split">
+        <div>
+          <figure class="sheet" style="margin:0">
+            <img src="textures/podest-bahn.png" alt="Abwicklung der Podest-Druckbahn 129 × 90 cm im Swibble-Design" loading="lazy" width="2580" height="1800" style="border-radius:var(--r-md)">
+            <figcaption>Abwicklung der Druckbahn 129 × 90 cm. Die Mitte zeigt beim Aufstellen nach vorne.</figcaption>
+          </figure>
+          <dl class="specs">
+            <div><dt>Produkt</dt><dd>Flyeralarm „Messetheken rund, System inkl. Druck“</dd></div>
+            <div><dt>Maße</dt><dd>Ø 45 cm, Höhe 93 cm</dd></div>
+            <div><dt>Druckformat</dt><dd>129 × 90 cm, 4/0 CMYK</dd></div>
+            <div><dt>Material</dt><dd>400 µm Hart-PVC-Folie matt, B1 schwer entflammbar</dd></div>
+            <div><dt>Thekenplatte</dt><dd>Schwarz, belastbar bis 50 kg</dd></div>
+            <div><dt>System</dt><dd>3 Aufbauteile, Lamellenbahn mit Klettband, ca. 8,5 kg</dd></div>
+            <div><dt>Shoppreis</dt><dd>176,11 € (flyeralarm.com, 07.10.2026)</dd></div>
+          </dl>
+          <a class="source" href="https://www.flyeralarm.com/de/p/messetheken-rund-system-inkl-druck-4245637.html" target="_blank" rel="noopener">Produkt bei Flyeralarm ansehen <span aria-hidden="true">›</span></a>
+        </div>
+        <div class="viewer">
+          <canvas id="stage-podest" aria-label="3D-Modell des runden Podests mit Tablet und Flyern"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="rueckwand">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Druckmedium 03 · Rückwand</div>
+        <h2>Von Weitem <span class="hl">erkennbar.</span></h2>
+        <p>Die Rückwand trägt die Marke über die Köpfe der Besucher hinweg. Logo, Claim und Leistungen stehen oberhalb von einem Meter, weil Podest und Roll-up den unteren Bereich verdecken. Rechts steht das Swibble-Symbol im Original-Verlauf auf einer hellen Kachel.</p>
+      </div>
+      <figure class="sheet" style="margin:0">
+        <img src="textures/rueckwand.png" alt="Rückwand 296,5 × 226,5 cm: Swibble, Deine Marke. Nächstes Level." loading="lazy" width="2965" height="2265" style="border-radius:var(--r-md)">
+        <figcaption>Druckmaß 296,5 × 226,5 cm. Alles Wichtige steht über einem Meter Höhe.</figcaption>
+      </figure>
+      <dl class="specs" style="max-width:760px">
+        <div><dt>Produkt</dt><dd>Flyeralarm „Textilfaltdisplay Classic, System inkl. Druck“, 12 Felder</dd></div>
+        <div><dt>Maße</dt><dd>302 × 227 × 29 cm</dd></div>
+        <div><dt>Druckmaß</dt><dd>296,5 × 226,5 cm, einseitig CMYK</dd></div>
+        <div><dt>Material</dt><dd>100 % Polyester, Sublimationsdruck, B1, schwarze Rückseite</dd></div>
+        <div><dt>Licht</dt><dd>2 LED-Strahler, je 12 W, 900 lm, 4200 K</dd></div>
+        <div><dt>Shoppreis</dt><dd>501,05 € inkl. Trolley-Koffer (flyeralarm.com, 07.10.2026)</dd></div>
+      </dl>
+      <a class="source" href="https://www.flyeralarm.com/de/p/textilfaltdisplay-classic-system-inkl-druck-4250518.html" target="_blank" rel="noopener">Produkt bei Flyeralarm ansehen <span aria-hidden="true">›</span></a>
+    </div>
+  </section>
+
+  <section class="block" id="aufbau">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Aufbauplan</div>
+        <h2>Alles auf <span class="hl">10 m².</span></h2>
+        <p>Grundriss im Maßstab und Stückliste für die Bestellung. Das Roll-up steht schräg zum Gang, das Podest vorne links, damit beide Laufrichtungen den QR-Code sehen.</p>
+      </div>
+      <div class="plan">
+        <svg viewBox="0 0 480 360" role="img" aria-label="Grundriss 4 × 2,5 m mit Rückwand hinten, Roll-up rechts und Podest vorne links">
+          <defs>
+            <pattern id="grid" width="25" height="25" patternUnits="userSpaceOnUse"><path d="M25 0H0V25" fill="none" stroke="#26326A" stroke-width="1"></path></pattern>
+          </defs>
+          <rect x="40" y="40" width="400" height="250" fill="url(#grid)" stroke="#9AA2C6" stroke-width="1.5"></rect>
+          <rect x="89" y="47" width="302" height="29" rx="3" fill="#B718EC"></rect>
+          <text x="240" y="66" fill="#FFFFFF" font-size="11" font-weight="600" text-anchor="middle" font-family="Poppins, sans-serif">Rückwand 302 × 29 cm</text>
+          <g transform="translate(355 155) rotate(24)">
+            <rect x="-44.5" y="-5" width="89" height="10" rx="3" fill="#EBC5F7"></rect>
+            <path d="M-38 -18v36M38 -18v36" stroke="#EBC5F7" stroke-width="2" stroke-linecap="round"></path>
+          </g>
+          <text x="355" y="190" fill="#EBC5F7" font-size="11" font-weight="600" text-anchor="middle" font-family="Poppins, sans-serif">Roll-up 85 cm</text>
+          <circle cx="185" cy="210" r="22.5" fill="#FFFFFF"></circle>
+          <text x="185" y="252" fill="#FFFFFF" font-size="11" font-weight="600" text-anchor="middle" font-family="Poppins, sans-serif">Podest Ø 45 cm</text>
+          <path d="M40 318H440M40 312v12M440 312v12" stroke="#9AA2C6" stroke-width="1.2"></path>
+          <text x="240" y="340" fill="#C9CDE4" font-size="12" text-anchor="middle" font-family="Poppins, sans-serif">4,00 m · Gangseite</text>
+          <path d="M18 40V290M12 40h12M12 290h12" stroke="#9AA2C6" stroke-width="1.2"></path>
+          <text x="14" y="165" fill="#C9CDE4" font-size="12" text-anchor="middle" font-family="Poppins, sans-serif" transform="rotate(-90 14 165)">2,50 m</text>
+          <text x="436" y="284" fill="#9AA2C6" font-size="10" text-anchor="end" font-family="Poppins, sans-serif">Raster 25 cm</text>
+        </svg>
+        <div class="tbl">
+          <table class="bom">
+            <thead><tr><th>Teil</th><th>Format</th><th>Druck</th><th>Preis</th></tr></thead>
+            <tbody>
+              <tr><td>Rückwand</td><td>302 × 227 cm<small>Textilfaltdisplay Classic, 12 Felder</small></td><td>296,5 × 226,5 cm<small>einseitig, Sublimation</small></td><td>501,05 €</td></tr>
+              <tr><td>Roll-up</td><td>85 × 200 cm<small>doppelseitig</small></td><td>2 × 87 × 218,5 cm<small>Seite A und B</small></td><td>offen</td></tr>
+              <tr><td>Podest</td><td>Ø 45 × 93 cm<small>Messetheken rund</small></td><td>129 × 90 cm<small>Hart-PVC matt</small></td><td>176,11 €</td></tr>
+            </tbody>
+          </table>
+          <p class="cap" style="margin-top:14px">Preise laut flyeralarm.com am 07.10.2026. Das Roll-up-System ist noch nicht ausgewählt. Steuerausweis und Lieferzeit vor der Bestellung im Flyeralarm-Konfigurator prüfen.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="assets/brand/swibble-logo-white.svg" alt="Swibble">
+    <span>Swibble · Digitalagentur aus Aachen · Königstraße 30 · 52064 Aachen</span>
+    <span>www.swibble.net</span>
+  </div>
+</footer>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
