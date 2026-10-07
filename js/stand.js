@@ -274,10 +274,27 @@ export function createStage(canvas, opts = {}) {
   controls.minDistance = opts.minDistance ?? 1.4;
   controls.maxDistance = opts.maxDistance ?? 10;
   controls.maxPolarAngle = Math.PI * 0.49;
-  controls.enablePan = false;
+  // Verschieben: Maus rechts / zwei Finger. Ein Finger dreht.
+  controls.enablePan = true;
+  controls.screenSpacePanning = true;
+  controls.touches = { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_PAN };
   controls.autoRotate = !!opts.autoRotate;
   controls.autoRotateSpeed = 0.6;
   controls.update();
+  const home = { pos: camera.position.toArray(), target: controls.target.toArray() };
+  const limits = { min: controls.minDistance, max: controls.maxDistance };
+  // Ziel bleibt im Bereich des Stands, damit man das Modell nicht verliert
+  const bounds = opts.bounds ?? { min: [-2.6, 0.05, -2.2], max: [2.6, 2.4, 2.2] };
+  const lo = new THREE.Vector3(...bounds.min), hi = new THREE.Vector3(...bounds.max);
+
+  // Touch: Seite scrollt normal, bis der Frei-Modus aktiv ist
+  const touchDevice = window.matchMedia('(pointer: coarse)').matches;
+  let free = false;
+  const applyTouchMode = () => {
+    controls.enabled = free || !touchDevice;
+    canvas.style.touchAction = controls.enabled ? 'none' : 'pan-y';
+  };
+  applyTouchMode();
 
   scene.add(new THREE.HemisphereLight('#FFFFFF', '#B9AFC8', 0.9));
   const sun = new THREE.DirectionalLight('#FFFFFF', 2.2);
@@ -304,6 +321,9 @@ export function createStage(canvas, opts = {}) {
     if (!r.width || !r.height) return;
     renderer.setSize(r.width, r.height, false);
     camera.aspect = r.width / r.height;
+    // Hochformat (Handy): Bildausschnitt weiten, damit das Modell ganz zu sehen ist
+    const ref = opts.refAspect ?? 1.6;
+    camera.zoom = Math.min(1, Math.pow(camera.aspect / ref, 0.65));
     camera.updateProjectionMatrix();
   };
   new ResizeObserver(resize).observe(canvas);
@@ -318,8 +338,9 @@ export function createStage(canvas, opts = {}) {
   renderer.setAnimationLoop(() => {
     const dt = Math.min(clock.getDelta(), 0.05);
     if (!visible) return;
-    for (const f of tickers) f(dt);
+    for (let i = tickers.length - 1; i >= 0; i--) if (tickers[i](dt) === false) tickers.splice(i, 1);
     controls.update();
+    controls.target.clamp(lo, hi);
     renderer.render(scene, camera);
   });
 
@@ -327,11 +348,21 @@ export function createStage(canvas, opts = {}) {
   if (opts.autoRotate) {
     let idle;
     controls.addEventListener('start', () => { controls.autoRotate = false; clearTimeout(idle); });
-    controls.addEventListener('end', () => { idle = setTimeout(() => { controls.autoRotate = !reducedMotion(); }, 4000); });
+    controls.addEventListener('end', () => { idle = setTimeout(() => { controls.autoRotate = !reducedMotion() && !free; }, 4000); });
     if (reducedMotion()) controls.autoRotate = false;
   }
 
-  return { THREE, renderer, scene, camera, controls, onTick: (f) => tickers.push(f), sun };
+  const stage = { THREE, renderer, scene, camera, controls, onTick: (f) => tickers.push(f), sun, touchDevice, home };
+  stage.setFree = (on) => {
+    free = on;
+    applyTouchMode();
+    controls.minDistance = on ? (opts.freeMinDistance ?? 0.5) : limits.min;
+    controls.maxDistance = on ? limits.max * 1.4 : limits.max;
+    if (on) controls.autoRotate = false;
+    resize();
+  };
+  stage.reset = () => flyTo(stage, home.pos, home.target, 0.9);
+  return stage;
 }
 
 export const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -344,7 +375,7 @@ export function flyTo(stage, pos, target, dur = 1.2) {
   if (reducedMotion()) { camera.position.copy(p1); controls.target.copy(t1); return; }
   let t = 0;
   const step = (dt) => {
-    if (t >= 1) return;
+    if (t >= 1) return false;
     t = Math.min(1, t + dt / dur);
     const k = easeInOut(t);
     camera.position.lerpVectors(p0, p1, k);
